@@ -18,22 +18,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class UserRepositoryTests {
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Test
-	public void test() throws Exception {
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);        
-		String formattedDate = dateFormat.format(date);
-		
-		userRepository.save(new User("aa1", "aa@126.com", "aa", "aa123456",formattedDate));
-		userRepository.save(new User("bb2", "bb@126.com", "bb", "bb123456",formattedDate));
-		userRepository.save(new User("cc3", "cc@126.com", "cc", "cc123456",formattedDate));
+    @Test
+    public void test() throws Exception {
+        Date date = new Date();
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
+        String formattedDate = dateFormat.format(date);
 
-		Assert.assertEquals(9, userRepository.findAll().size());
-		Assert.assertEquals("bb", userRepository.findByUserNameOrEmail("bb", "cc@126.com").getNickName());
-		userRepository.delete(userRepository.findByUserName("aa1"));
-	}
+        userRepository.save(new User("aa@126.com", "aa", "aa123456", "aa1", formattedDate));
+        userRepository.save(new User("bb@126.com", "bb", "bb123456", "bb2", formattedDate));
+        userRepository.save(new User("cc@126.com", "cc", "cc123456", "cc3", formattedDate));
+
+        Assert.assertEquals(3, userRepository.findAll().size());
+        Assert.assertEquals("bb", userRepository.findByUserNameOrEmail("bb2", "bb@126.com").getNickName());
+        userRepository.delete(userRepository.findByUserName("aa1"));
+    }
 
 }
